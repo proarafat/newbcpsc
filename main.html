@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Filter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        input[type=text] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        .phone-icon {
+            color: blue;
+            cursor: pointer;
+        }
+        /* Adjust the width of the action column */
+        .action-column {
+            width: 50px; /* Adjust this value as needed */
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 600px) {
+            table, th, td {
+                font-size: 14px;
+            }
+            .phone-icon {
+                font-size: 20px;
+            }
+            .action-column {
+                width: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h2>Filter Table</h2>
+
+<input type="text" id="myInput" onkeyup="filterTable()" placeholder="Search for names, positions, or phone numbers..">
+
+<table id="myTable">
+  <tr>
+    <th>Name</th>
+    <th>Position</th>
+    <th class="action-column">Action</th>
+    <th>Phone Number</th>
+  </tr>
+  <tr>
+    <td>John</td>
+    <td>Manager</td>
+    <td><i class="fas fa-phone phone-icon" onclick="callPhoneNumber('+8801234567890')"></i></td>
+    <td>+880 123-4567890</td>
+  </tr>
+  <tr>
+    <td>Mary</td>
+    <td>Engineer</td>
+    <td><i class="fas fa-phone phone-icon" onclick="callPhoneNumber('+8802345678901')"></i></td>
+    <td>+880 234-5678901</td>
+  </tr>
+  <tr>
+    <td>Tom</td>
+    <td>Developer</td>
+    <td><i class="fas fa-phone phone-icon" onclick="callPhoneNumber('+8803456789012')"></i></td>
+    <td>+880 345-6789012</td>
+  </tr>
+  <tr>
+    <td>Alice</td>
+    <td>Designer</td>
+    <td><i class="fas fa-phone phone-icon" onclick="callPhoneNumber('+8804567890123')"></i></td>
+    <td>+880 456-7890123</td>
+  </tr>
+</table>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+<script>
+function filterTable() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td");
+    let matchFound = false;
+    for (let j = 0; j < td.length; j++) {
+        let cell = td[j];
+        if (cell) {
+          txtValue = cell.textContent || cell.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+            matchFound = true;
+            break;
+          }
+        }
+    }
+    if (!matchFound) {
+      tr[i].style.display = "none";
+    }
+  }
+}
+
+function callPhoneNumber(phoneNumber) {
+  window.location.href = 'tel:' + phoneNumber;
+}
+</script>
+
+</body>
+</html>
